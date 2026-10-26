@@ -1,0 +1,78 @@
+import java.util.Scanner;
+
+public class RailFenceCipher {
+
+static String encrypt(String text, int depth) {
+    char[][] rail = new char[depth][text.length()];
+    int k = 0;
+
+    for (int i = 0; i < depth; i++) {
+        for (int j = 0; j < text.length(); j++) {
+            if (k < text.length()) {
+                rail[i][j] = text.charAt(k++);
+            }
+        }
+    }
+
+    String cipher = "";
+    for (int j = 0; j < text.length(); j++) {
+        for (int i = 0; i < depth; i++) {
+            if (rail[i][j] != '\0') {
+                cipher += rail[i][j];
+            }
+        }
+    }
+
+    return cipher;
+}
+
+static String decrypt(String cipher, int depth) {
+    char[][] rail = new char[depth][cipher.length()];
+    int k = 0;
+
+    for (int j = 0; j < cipher.length(); j++) {
+        for (int i = 0; i < depth; i++) {
+            if (k < cipher.length()) {
+                rail[i][j] = cipher.charAt(k++);
+            }
+        }
+    }
+
+    String plain = "";
+    for (int i = 0; i < depth; i++) {
+        for (int j = 0; j < cipher.length(); j++) {
+            if (rail[i][j] != '\0') {
+                plain += rail[i][j];
+            }
+        }
+    }
+
+    return plain;
+}
+
+public static void main(String[] args) {
+    Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter plain text: ");
+    String text = sc.nextLine();
+
+    System.out.print("Enter depth: ");
+    int depth = sc.nextInt();
+
+    String cipher = encrypt(text, depth);
+    System.out.println("Encrypted text: " + cipher);
+
+    String decrypted = decrypt(cipher, depth);
+    System.out.println("Decrypted text: " + decrypted);
+
+    sc.close();
+}
+
+}
+
+
+
+Enter plain text: HELLOWORLD
+Enter depth: 3
+Encrypted text: HLODEORLWL
+Decrypted text: HELLOWORLD
