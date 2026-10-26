@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+class RailFence {
+public static void main(String[] args) {
+Scanner sc = new Scanner(System.in);
+
+    System.out.print("Enter plain text: ");
+    String text = sc.nextLine();
+
+    System.out.print("Enter depth: ");
+    int depth = sc.nextInt();
+
+    int len = text.length();
+    char[][] mat = new char[depth][len];
+    int k = 0;
+
+    // Encryption: Fill row by row
+    for (int i = 0; i < depth; i++)
+        for (int j = 0; j < len; j++)
+            if (k < len)
+                mat[i][j] = text.charAt(k++);
+
+    String cipher = "";
+    for (int j = 0; j < len; j++)
+        for (int i = 0; i < depth; i++)
+            if (mat[i][j] != '\0')
+                cipher += mat[i][j];
+
+    System.out.println("Encrypted text: " + cipher);
+
+    // Decryption
+    mat = new char[depth][len];
+    k = 0;
+
+    for (int j = 0; j < len; j++)
+        for (int i = 0; i < depth; i++)
+            if (k < len)
+                mat[i][j] = cipher.charAt(k++);
+
+    String plain = "";
+    for (int i = 0; i < depth; i++)
+        for (int j = 0; j < len; j++)
+            if (mat[i][j] != '\0')
+                plain += mat[i][j];
+
+    System.out.println("Decrypted text: " + plain);
+    sc.close();
+}
+
+}
+
+
+
+
+
+Enter plain text: HELLOWORLD
+Enter depth: 3
+Encrypted text: HLODEORLWL
+Decrypted text: HELLOWORLD
