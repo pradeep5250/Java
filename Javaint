@@ -1,0 +1,74 @@
+public class DistanceVector {
+public static void main(String[] args) {
+
+    int INF = 999;
+    int nodes = 4;
+
+    // Connections: source, destination, cost
+    int[][] edges = {
+        {0, 1, 2},
+        {0, 3, 1},
+        {1, 2, 3},
+        {2, 3, 2}
+    };
+
+    int[] dist = new int[nodes];
+    int[] parent = new int[nodes];
+
+    for (int i = 0; i < nodes; i++) {
+        dist[i] = INF;
+        parent[i] = -1;
+    }
+
+    int client = 0;
+    int server = 2;
+    dist[client] = 0;
+
+    for (int i = 0; i < nodes - 1; i++) {
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int cost = edge[2];
+
+            if (dist[u] + cost < dist[v]) {
+                dist[v] = dist[u] + cost;
+                parent[v] = u;
+            }
+
+            if (dist[v] + cost < dist[u]) {
+                dist[u] = dist[v] + cost;
+                parent[u] = v;
+            }
+        }
+    }
+
+    int[] path = new int[nodes];
+    int count = 0;
+
+    for (int current = server; current != -1;
+         current = parent[current]) {
+        path[count++] = current;
+    }
+
+    System.out.println("Client Node: " + client);
+    System.out.println("Server Node: " + server);
+    System.out.println("Shortest Distance: " + dist[server]);
+
+    System.out.print("Shortest Path: ");
+    for (int i = count - 1; i >= 0; i--) {
+        System.out.print(path[i]);
+        if (i > 0)
+            System.out.print(" -> ");
+    }
+
+    System.out.println();
+}
+
+}
+
+
+
+Client Node: 0
+Server Node: 2
+Shortest Distance: 3
+Shortest Path: 0 -> 3 -> 2
